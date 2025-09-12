@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ML Model Results</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1> ML Model Results</h1>
+    <p>Mean Squared Error: {{ mse }}</p>
+    <p>R² Score: {{ r2 }}</p>
+    <h2>Actual vs Predicted</h2>
+    {{ pred_html|safe }}
+    <a href="/download_predictions"><button>Download Predictions CSV</button></a>
+    <a href="/"><button>Back to Home</button></a>
+</div>
+</body>
+</html>

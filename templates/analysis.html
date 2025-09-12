@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Exploratory Data Analysis</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>📊 Exploratory Data Analysis</h1>
+    {{ table|safe }}
+    <form action="/eda" method="post">
+        <label for="column">Select column for time series plot:</label>
+        <select name="column" required>
+            {% for col in numeric_cols %}
+            <option value="{{ col }}">{{ col }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Generate Plots</button>
+    </form>
+</div>
+</body>
+</html>

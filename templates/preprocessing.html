@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Data Preprocessing</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>🛠 Data Uploaded</h1>
+    {{ table|safe }}
+    <form action="/preprocess" method="post">
+        <button type="submit">Preprocess & Scale Data</button>
+    </form>
+</div>
+</body>
+</html>
