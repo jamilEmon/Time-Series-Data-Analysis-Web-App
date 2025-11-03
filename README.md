@@ -1,44 +1,141 @@
-This project is a web application designed for time series data analysis, built using the Flask framework. It provides a user-friendly interface for uploading CSV data, performing essential preprocessing steps, conducting exploratory data analysis (EDA) with interactive visualizations, and training a basic machine learning model for prediction.
+# Time Series Data Analysis Web App
 
-Here's a breakdown of its components and workflow:
+This project is a Flask-based web application designed for comprehensive time series data analysis. It provides a user-friendly interface for uploading CSV data, performing essential preprocessing steps, conducting exploratory data analysis (EDA) with interactive visualizations, and training a basic machine learning model for prediction.
 
-__Core Functionality:__
+## Features
 
-1. __Data Upload:__ Users can upload their time series data in CSV format. The application automatically parses the first column as dates and sets it as the DataFrame index.
+*   **Data Upload:** Easily upload your time series data in CSV format. The application automatically parses the first column as dates and sets it as the DataFrame index.
+*   **Data Preprocessing:**
+    *   **Missing Value Imputation:** Numeric missing values are filled using the median of their respective columns.
+    *   **Categorical Encoding:** Categorical features are converted into numerical representations using Label Encoding.
+    *   **Feature Scaling:** Numeric features are scaled using `StandardScaler` to normalize their ranges.
+*   **Exploratory Data Analysis (EDA):**
+    *   **Time Series Plots:** Interactive line plots are generated for selected columns to visualize trends over time using Plotly.
+    *   **Correlation Heatmaps:** A heatmap displays the correlation matrix of all numerical features, helping to identify relationships between variables.
+*   **Machine Learning Model:**
+    *   **Model Training:** A Linear Regression model is trained on the preprocessed data. Users select a target column, and the remaining numeric columns are used as features.
+    *   **Prediction & Evaluation:** The model makes predictions on a test set, and performance metrics such as Mean Squared Error (MSE) and R² Score are calculated and displayed. An interactive plot shows actual vs. predicted values.
+*   **Data Download:** Users can download the preprocessed dataset and the model's predictions as CSV files.
 
-2. __Data Preprocessing:__
+## Technology Stack
 
-   - __Missing Value Imputation:__ Numeric missing values are filled using the median of their respective columns.
-   - __Categorical Encoding:__ Categorical features are converted into numerical representations using Label Encoding.
-   - __Feature Scaling:__ Numeric features are scaled using `StandardScaler` to normalize their ranges.
+*   **Backend:** Python with Flask (web framework).
+*   **Data Manipulation:** Pandas, NumPy.
+*   **Machine Learning:** Scikit-learn (for preprocessing, model training, and evaluation).
+*   **Interactive Visualizations:** Plotly Express.
+*   **Web Server:** Gunicorn (for production deployment).
+*   **Frontend:** HTML templates with Jinja2 for dynamic content, and CSS for styling.
 
-3. __Exploratory Data Analysis (EDA):__
+## Setup and Installation
 
-   - __Time Series Plots:__ Interactive line plots are generated for selected columns to visualize trends over time using Plotly.
-   - __Correlation Heatmaps:__ A heatmap displays the correlation matrix of all numerical features, helping to identify relationships between variables.
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-repo/Time-Series-Data-Analysis-Web-App.git
+    cd Time-Series-Data-Analysis-Web-App
+    ```
+    *(Note: Replace `https://github.com/your-repo/Time-Series-Data-Analysis-Web-App.git` with the actual repository URL if available, or remove this step if the user already has the project locally.)*
 
-4. __Machine Learning Model:__
+2.  **Create a virtual environment (recommended):**
+    ```bash
+    python -m venv venv
+    ```
 
-   - __Model Training:__ A Linear Regression model is trained on the preprocessed data. Users select a target column, and the remaining numeric columns are used as features.
-   - __Prediction & Evaluation:__ The model makes predictions on a test set, and performance metrics such as Mean Squared Error (MSE) and R² Score are calculated and displayed. An interactive plot shows actual vs. predicted values.
+3.  **Activate the virtual environment:**
+    *   **Windows:**
+        ```bash
+        .\venv\Scripts\activate
+        ```
+    *   **macOS/Linux:**
+        ```bash
+        source venv/bin/activate
+        ```
 
-5. __Data Download:__ Users can download the preprocessed dataset and the model's predictions as CSV files.
+4.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-__Technology Stack:__
+5.  **Run the application:**
+    ```bash
+    python app.py
+    ```
 
-- __Backend:__ Python with Flask (web framework).
-- __Data Manipulation:__ Pandas, NumPy.
-- __Machine Learning:__ Scikit-learn (for preprocessing, model training, and evaluation).
-- __Interactive Visualizations:__ Plotly Express.
-- __Web Server:__ Gunicorn (for production deployment).
-- __Frontend:__ HTML templates with Jinja2 for dynamic content, and CSS for styling.
+    The application will typically run on `http://127.0.0.1:5000/`. Open this URL in your web browser.
 
-__Project Diagram:__
+## Project Architecture Diagram
 
-graph TD A[User] --> B{Web Browser}; B -- Upload CSV (index.html) --> C[Flask App (app.py)]; C -- Store Raw Data (df) --> D[Data Preprocessing]; D -- Render Preprocessing Page (preprocessing.html) --> B; B -- Trigger Preprocessing --> C; C -- Fill Missing Values, Encode Categorical, Scale Numeric --> E[Processed Data (processed_df)]; E -- Render Analysis Page (analysis.html) --> B; B -- Select Column for EDA --> C; C -- Generate Time Series Plot & Correlation Heatmap --> F[EDA Results]; F -- Render EDA Page (eda.html) --> B; B -- Download Processed CSV --> C; B -- Select Target Column for ML --> C; C -- Split Data, Train Linear Regression Model, Predict --> G[ML Model Results]; G -- Render Model Page (model.html) --> B; B -- Download Predictions CSV --> C; B -- Back to Home --> A; subgraph Flask Application C D E F G end subgraph Frontend B end style A fill:#f9f,stroke:#333,stroke-width:2px style B fill:#bbf,stroke:#333,stroke-width:2px style C fill:#ccf,stroke:#333,stroke-width:2px style D fill:#cfc,stroke:#333,stroke-width:2px style E fill:#ffc,stroke:#333,stroke-width:2px style F fill:#fcc,stroke:#333,stroke-width:2px style G fill:#cff,stroke:#333,stroke-width:2px
+This diagram illustrates the architecture and data flow of the Time Series Data Analysis Web App.
 
-Task Completed
+```mermaid
+graph TD
+    subgraph User Interface
+        A[index.html] -- Upload CSV --> B(Upload Endpoint /upload);
+        B -- Display Raw Data --> C[preprocessing.html];
+        C -- Submit for Preprocessing --> D(Preprocess Endpoint /preprocess);
+        D -- Display Processed Data --> E[analysis.html];
+        E -- Select Column for EDA --> F(EDA Endpoint /eda);
+        F -- Display Plots & Download Processed CSV --> G[eda.html];
+        G -- Select Target Column for ML --> H(Model Endpoint /model);
+        H -- Display Model Results & Download Predictions CSV --> I[model.html];
+        I -- Back to Home --> A;
+    end
 
-The project is a Flask-based web application for time series data analysis. It allows users to upload CSV files, perform data preprocessing (missing value imputation, categorical encoding, feature scaling), conduct exploratory data analysis with interactive plots (time series, correlation heatmaps), train a Linear Regression model, and visualize predictions. Users can also download processed data and model predictions.
+    subgraph Flask Backend (app.py)
+        B -- Reads CSV, Sets Index --> J(Raw DataFrame `df`);
+        D -- Fills Missing, Encodes Categorical, Scales Numeric --> K(Processed DataFrame `processed_df`);
+        F -- Generates Time Series Plot & Correlation Heatmap --> L(Plotly Figures);
+        H -- Splits Data, Trains Linear Regression, Predicts --> M(Predictions DataFrame `predictions_df`);
+        H -- Calculates MSE, R2 Score --> N(Model Metrics);
+    end
 
-The diagram above illustrates the flow of the application from user interaction to backend processing and data visualization.
+    subgraph Data Storage
+        J
+        K
+        M
+    end
+
+    subgraph Libraries
+        O[Pandas]
+        P[Numpy]
+        Q[Scikit-learn]
+        R[Plotly Express]
+    end
+
+    B --> O;
+    D --> O;
+    D --> Q;
+    F --> O;
+    F --> R;
+    H --> O;
+    H --> Q;
+    H --> R;
+
+    J -- `df` --> K;
+    K -- `processed_df` --> L;
+    K -- `processed_df` --> M;
+    M -- `predictions_df` --> I;
+
+    G -- Download Processed CSV --> K;
+    I -- Download Predictions CSV --> M;
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style E fill:#f9f,stroke:#333,stroke-width:2px
+    style G fill:#f9f,stroke:#333,stroke-width:2px
+    style I fill:#f9f,stroke:#333,stroke-width:2px
+
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style D fill:#bbf,stroke:#333,stroke-width:2px
+    style F fill:#bbf,stroke:#333,stroke-width:2px
+    style H fill:#bbf,stroke:#333,stroke-width:2px
+
+    style J fill:#ccf,stroke:#333,stroke-width:2px
+    style K fill:#ccf,stroke:#333,stroke-width:2px
+    style M fill:#ccf,stroke:#333,stroke-width:2px
+    style L fill:#cfc,stroke:#333,stroke-width:2px
+    style N fill:#cfc,stroke:#333,stroke-width:2px
+
+    style O fill:#ffc,stroke:#333,stroke-width:2px
+    style P fill:#ffc,stroke:#333,stroke-width:2px
+    style Q fill:#ffc,stroke:#333,stroke-width:2px
+    style R fill:#ffc,stroke:#333,stroke-width:2px
